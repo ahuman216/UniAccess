@@ -1,0 +1,4 @@
+function speak(){
+  const utter = new SpeechSynthesisUtterance(document.getElementById('text').value);
+  speechSynthesis.speak(utter);
+}
