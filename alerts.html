@@ -1,0 +1,299 @@
+{% extends "base.html" %}
+{% block title %}SafeAlert – Multimodal Notifications{% endblock %}
+
+{% block content %}
+<!-- [A11Y] Screen flash overlay — controlled to max 3 flashes to comply with WCAG 2.3.1 -->
+<div id="flashOverlay" aria-hidden="true"></div>
+
+<div class="feature-hero">
+  <div class="container px-4">
+    <span class="feature-badge">
+      <i class="bi bi-bell-fill" aria-hidden="true"></i> Feature 4
+    </span>
+    <h1>SafeAlert</h1>
+    <p class="lead text-muted-a">Multimodal emergency and general notifications — no one gets left behind.</p>
+  </div>
+</div>
+
+<div class="container px-4 py-4">
+
+  <!-- Alert display area — aria-live assertive for emergencies -->
+  <div id="alertArea" class="mb-4" aria-live="assertive" aria-atomic="true">
+    <!-- Alerts injected here -->
+  </div>
+
+  <div class="row g-4">
+
+    <!-- Demo Controls -->
+    <div class="col-lg-6">
+      <div class="ua-card h-auto">
+        <h2 class="h5 mb-3">
+          <i class="bi bi-play-circle-fill" aria-hidden="true"></i> Alert Demos
+        </h2>
+        <p class="text-muted-a small mb-3">
+          Trigger different alert types to experience how they combine visual, audio, and haptic feedback.
+        </p>
+
+        <div class="d-flex flex-column gap-3">
+
+          <div class="p-3 rounded" style="border:2px solid var(--clr-danger); background:rgba(185,28,28,.06);">
+            <h3 class="h6 text-danger-a mb-2">
+              <i class="bi bi-exclamation-triangle-fill" aria-hidden="true"></i>
+              Emergency Alert
+            </h3>
+            <p class="small mb-2">Activates all channels: screen flash, vibration, audio siren, and text banner.</p>
+            <button class="btn-ua-danger" id="demoEmergency">
+              <i class="bi bi-exclamation-octagon-fill" aria-hidden="true"></i>
+              Trigger Emergency Alert
+            </button>
+          </div>
+
+          <div class="p-3 rounded" style="border:2px solid var(--clr-accent); background:rgba(29,95,168,.06);">
+            <h3 class="h6 mb-2" style="color:var(--clr-accent);">
+              <i class="bi bi-info-circle-fill" aria-hidden="true"></i>
+              General Notification
+            </h3>
+            <p class="small mb-2">Gentle notification with text banner and single vibration pulse.</p>
+            <button class="btn-ua-primary" id="demoInfo">
+              <i class="bi bi-bell" aria-hidden="true"></i>
+              Trigger Notification
+            </button>
+          </div>
+
+          <div class="p-3 rounded" style="border:2px solid var(--clr-success); background:rgba(26,110,58,.06);">
+            <h3 class="h6 mb-2" style="color:var(--clr-success);">
+              <i class="bi bi-check-circle-fill" aria-hidden="true"></i>
+              Custom Alert
+            </h3>
+            <div class="mb-2">
+              <label for="customMessage" class="form-label small fw-semibold">Message</label>
+              <input type="text" id="customMessage" class="form-control form-control-sm"
+                     value="Class starts in 5 minutes" maxlength="120" />
+            </div>
+            <button class="btn-ua-secondary" id="demoCustom">
+              <i class="bi bi-send" aria-hidden="true"></i>
+              Send Custom Alert
+            </button>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- Preferences -->
+    <div class="col-lg-6">
+      <div class="ua-card h-auto">
+        <h2 class="h5 mb-3">
+          <i class="bi bi-sliders" aria-hidden="true"></i> Alert Preferences
+        </h2>
+        <p class="text-muted-a small mb-3">
+          Choose which channels to activate. Changes apply immediately to demos.
+        </p>
+
+        <fieldset>
+          <legend class="fw-semibold mb-3">Active Channels</legend>
+
+          <div class="settings-group">
+            <label for="prefFlash" class="d-flex align-items-center gap-2">
+              <input type="checkbox" id="prefFlash" checked />
+              <i class="bi bi-lightning-fill text-accent" aria-hidden="true"></i>
+              <div>
+                <strong>Screen Flash</strong>
+                <p class="mb-0 small text-muted-a">Brief colour overlay (max 3 flashes – WCAG 2.3.1)</p>
+              </div>
+            </label>
+
+            <label for="prefVibrate" class="d-flex align-items-center gap-2 mt-2">
+              <input type="checkbox" id="prefVibrate" checked />
+              <i class="bi bi-phone-vibrate-fill text-accent" aria-hidden="true"></i>
+              <div>
+                <strong>Vibration</strong>
+                <p class="mb-0 small text-muted-a">Haptic pattern via device motor</p>
+              </div>
+            </label>
+
+            <label for="prefAudio" class="d-flex align-items-center gap-2 mt-2">
+              <input type="checkbox" id="prefAudio" checked />
+              <i class="bi bi-volume-up-fill text-accent" aria-hidden="true"></i>
+              <div>
+                <strong>Audio Alert</strong>
+                <p class="mb-0 small text-muted-a">Spoken message + optional tone</p>
+              </div>
+            </label>
+
+            <label for="prefBanner" class="d-flex align-items-center gap-2 mt-2">
+              <input type="checkbox" id="prefBanner" checked />
+              <i class="bi bi-card-text text-accent" aria-hidden="true"></i>
+              <div>
+                <strong>Text Banner</strong>
+                <p class="mb-0 small text-muted-a">Visible on-screen message with icon</p>
+              </div>
+            </label>
+          </div>
+        </fieldset>
+
+        <div class="mt-3">
+          <label for="alertVolume" class="form-label fw-semibold">
+            Alert Volume: <span id="alertVolumeVal">0.8</span>
+          </label>
+          <input type="range" id="alertVolume" min="0" max="1" step="0.05" value="0.8"
+                 aria-label="Alert volume" />
+        </div>
+
+        <div class="mt-3">
+          <label for="alertRate" class="form-label fw-semibold">
+            Speech Rate: <span id="alertRateVal">1.0</span>×
+          </label>
+          <input type="range" id="alertRate" min="0.5" max="2.0" step="0.1" value="1.0"
+                 aria-label="Alert speech rate" />
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+
+  <!-- How SafeAlert works -->
+  <section class="mt-5 pt-4 border-top" aria-labelledby="safealert-how">
+    <h2 id="safealert-how" class="h4 mb-3">Why Multimodal Matters</h2>
+    <div class="row g-3">
+      <div class="col-sm-6 col-lg-3">
+        <div class="ua-card text-center">
+          <i class="bi bi-ear-fill text-accent" style="font-size:1.5rem;" aria-hidden="true"></i>
+          <h3 class="h6 mt-2">Deaf / Hard of Hearing</h3>
+          <p class="small mb-0">Screen flash and vibration alert users who cannot hear audio alarms.</p>
+        </div>
+      </div>
+      <div class="col-sm-6 col-lg-3">
+        <div class="ua-card text-center">
+          <i class="bi bi-eye-slash-fill text-accent" style="font-size:1.5rem;" aria-hidden="true"></i>
+          <h3 class="h6 mt-2">Blind / Low Vision</h3>
+          <p class="small mb-0">Spoken alerts and vibration reach users who may not see text banners.</p>
+        </div>
+      </div>
+      <div class="col-sm-6 col-lg-3">
+        <div class="ua-card text-center">
+          <i class="bi bi-volume-mute-fill text-accent" style="font-size:1.5rem;" aria-hidden="true"></i>
+          <h3 class="h6 mt-2">Noisy Environments</h3>
+          <p class="small mb-0">Visual + haptic channels get through where audio gets drowned out.</p>
+        </div>
+      </div>
+      <div class="col-sm-6 col-lg-3">
+        <div class="ua-card text-center">
+          <i class="bi bi-universal-access text-accent" style="font-size:1.5rem;" aria-hidden="true"></i>
+          <h3 class="h6 mt-2">Everyone</h3>
+          <p class="small mb-0">Multiple channels means any user — regardless of ability — receives critical alerts.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+/**
+ * SafeAlert — Multimodal alert engine
+ * [A11Y] WCAG 2.3.1: flash animation limited to 3 iterations (< 3Hz).
+ *        aria-live="assertive" on alert area for immediate SR announcement.
+ *        All channels independently toggleable to match user needs.
+ */
+(function () {
+  const alertArea    = document.getElementById('alertArea');
+  const flashOverlay = document.getElementById('flashOverlay');
+  const prefFlash    = document.getElementById('prefFlash');
+  const prefVibrate  = document.getElementById('prefVibrate');
+  const prefAudio    = document.getElementById('prefAudio');
+  const prefBanner   = document.getElementById('prefBanner');
+  const alertVolume  = document.getElementById('alertVolume');
+  const alertRate    = document.getElementById('alertRate');
+
+  document.getElementById('alertVolume').addEventListener('input', e => {
+    document.getElementById('alertVolumeVal').textContent = e.target.value;
+  });
+  document.getElementById('alertRate').addEventListener('input', e => {
+    document.getElementById('alertRateVal').textContent = e.target.value;
+  });
+
+  // ── Alert engine ────────────────────────────────────────────
+  function triggerAlert({ message, type = 'info', icon = 'bi-bell-fill' }) {
+    const prefs = {
+      flash:   prefFlash.checked,
+      vibrate: prefVibrate.checked,
+      audio:   prefAudio.checked,
+      banner:  prefBanner.checked,
+    };
+
+    // 1. Screen flash
+    if (prefs.flash) {
+      flashOverlay.style.background = type === 'emergency' ? '#b91c1c' : '#1d5fa8';
+      flashOverlay.classList.remove('flash');
+      void flashOverlay.offsetWidth; // reflow to restart
+      flashOverlay.classList.add('flash');
+      setTimeout(() => flashOverlay.classList.remove('flash'), 700);
+    }
+
+    // 2. Vibration
+    if (prefs.vibrate) {
+      const pattern = type === 'emergency'
+        ? [300, 100, 300, 100, 300]  // SOS-like pattern
+        : [200];
+      UA.vibrate(pattern);
+    }
+
+    // 3. Text banner
+    if (prefs.banner) {
+      const bannerClass = type === 'emergency' ? 'alert-banner-emergency' : 'alert-banner-info';
+      alertArea.innerHTML = `
+        <div class="alert-banner ${bannerClass} show" role="alert" aria-live="assertive">
+          <i class="bi ${icon} flex-shrink-0" aria-hidden="true" style="font-size:1.5rem;"></i>
+          <span>${escapeHtml(message)}</span>
+          <button onclick="this.parentElement.remove();" style="margin-left:auto; background:none; border:none; color:inherit; font-size:1.2rem; cursor:pointer;" aria-label="Dismiss alert">
+            <i class="bi bi-x-lg"></i>
+          </button>
+        </div>`;
+      // Auto-dismiss non-emergency after 8s
+      if (type !== 'emergency') setTimeout(() => { alertArea.innerHTML = ''; }, 8000);
+    }
+
+    // 4. Audio TTS
+    if (prefs.audio && window.speechSynthesis) {
+      window.speechSynthesis.cancel();
+      const utt = new SpeechSynthesisUtterance(message);
+      utt.rate   = parseFloat(alertRate.value);
+      utt.volume = parseFloat(alertVolume.value);
+      if (type === 'emergency') utt.pitch = 1.4; // higher pitch for urgency
+      window.speechSynthesis.speak(utt);
+    }
+  }
+
+  // ── Button wiring ────────────────────────────────────────────
+  document.getElementById('demoEmergency').addEventListener('click', () => {
+    triggerAlert({
+      message: 'EMERGENCY ALERT: Please evacuate the building immediately via the nearest exit.',
+      type:    'emergency',
+      icon:    'bi-exclamation-octagon-fill',
+    });
+  });
+
+  document.getElementById('demoInfo').addEventListener('click', () => {
+    triggerAlert({
+      message: 'Notification: Your session is about to expire. Please save your work.',
+      type:    'info',
+      icon:    'bi-info-circle-fill',
+    });
+  });
+
+  document.getElementById('demoCustom').addEventListener('click', () => {
+    const msg = document.getElementById('customMessage').value.trim();
+    if (!msg) { UA.announce('Please enter a message first.', 'assertive'); return; }
+    triggerAlert({ message: msg, type: 'info', icon: 'bi-chat-dots-fill' });
+  });
+
+  function escapeHtml(str) {
+    return str.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+  }
+})();
+</script>
+{% endblock %}

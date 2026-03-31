@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="UniAccess – Removing Communication & Perception Barriers for Individuals with Hearing and Vision Disabilities" />
+  <title>{% block title %}UniAccess{% endblock %} – Accessibility Tools</title>
+
+  <!-- [A11Y] Preconnect for performance; Google Fonts chosen for readability -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" />
+
+  <!-- Bootstrap 5 for responsive grid -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <!-- Bootstrap Icons -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet" />
+
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}" />
+
+  <!-- [A11Y] Allow users to override colours via settings stored in localStorage -->
+  <script>
+    (function () {
+      try {
+        var s = JSON.parse(localStorage.getItem('uniAccessSettings') || '{}');
+        var r = document.documentElement;
+        if (s.fontSize)     r.style.setProperty('--base-font-size', s.fontSize + 'px');
+        if (s.contrast === 'high') r.setAttribute('data-theme', 'high-contrast');
+        if (s.contrast === 'dark') r.setAttribute('data-theme', 'dark');
+        if (s.fontFamily === 'dyslexia') r.setAttribute('data-font', 'dyslexia');
+      } catch(e) {}
+    })();
+  </script>
+</head>
+<body>
+
+  <!-- [A11Y] Skip navigation link – first focusable element on every page -->
+  <a href="#main-content" class="skip-link">Skip to main content</a>
+
+  <!-- [A11Y] role="banner" landmark for screen readers -->
+  <header role="banner" class="site-header">
+    <nav class="navbar navbar-expand-lg" aria-label="Primary navigation">
+      <div class="container-fluid px-4">
+
+        <!-- Brand -->
+        <a class="navbar-brand d-flex align-items-center gap-2" href="{{ url_for('index') }}" aria-label="UniAccess – Home">
+          <span class="brand-icon" aria-hidden="true">◎</span>
+          <span class="brand-text">UniAccess</span>
+        </a>
+
+        <!-- [A11Y] aria-expanded toggler for mobile menu -->
+        <button class="navbar-toggler" type="button"
+                data-bs-toggle="collapse" data-bs-target="#primaryNav"
+                aria-controls="primaryNav" aria-expanded="false"
+                aria-label="Toggle navigation menu">
+          <i class="bi bi-list" aria-hidden="true"></i>
+        </button>
+
+        <div class="collapse navbar-collapse" id="primaryNav">
+          <ul class="navbar-nav ms-auto gap-1" role="list">
+            <li class="nav-item" role="listitem">
+              <a class="nav-link {% if request.endpoint == 'index' %}active{% endif %}"
+                 href="{{ url_for('index') }}" {% if request.endpoint == 'index' %}aria-current="page"{% endif %}>
+                <i class="bi bi-house-fill" aria-hidden="true"></i> Home
+              </a>
+            </li>
+            <li class="nav-item" role="listitem">
+              <a class="nav-link {% if request.endpoint == 'caption' %}active{% endif %}"
+                 href="{{ url_for('caption') }}" {% if request.endpoint == 'caption' %}aria-current="page"{% endif %}>
+                <i class="bi bi-mic-fill" aria-hidden="true"></i> LiveSpeak
+              </a>
+            </li>
+            <li class="nav-item" role="listitem">
+              <a class="nav-link {% if request.endpoint == 'read' %}active{% endif %}"
+                 href="{{ url_for('read') }}" {% if request.endpoint == 'read' %}aria-current="page"{% endif %}>
+                <i class="bi bi-book-fill" aria-hidden="true"></i> ReadAssist
+              </a>
+            </li>
+            <li class="nav-item" role="listitem">
+              <a class="nav-link {% if request.endpoint == 'vision' %}active{% endif %}"
+                 href="{{ url_for('vision') }}" {% if request.endpoint == 'vision' %}aria-current="page"{% endif %}>
+                <i class="bi bi-camera-fill" aria-hidden="true"></i> VisionSense
+              </a>
+            </li>
+            <li class="nav-item" role="listitem">
+              <a class="nav-link {% if request.endpoint == 'alerts' %}active{% endif %}"
+                 href="{{ url_for('alerts') }}" {% if request.endpoint == 'alerts' %}aria-current="page"{% endif %}>
+                <i class="bi bi-bell-fill" aria-hidden="true"></i> SafeAlert
+              </a>
+            </li>
+            <li class="nav-item" role="listitem">
+              <a class="nav-link {% if request.endpoint == 'settings' %}active{% endif %}"
+                 href="{{ url_for('settings') }}" {% if request.endpoint == 'settings' %}aria-current="page"{% endif %}>
+                <i class="bi bi-sliders" aria-hidden="true"></i> Settings
+              </a>
+            </li>
+            <li class="nav-item" role="listitem">
+              <a class="nav-link {% if request.endpoint == 'about' %}active{% endif %}"
+                 href="{{ url_for('about') }}" {% if request.endpoint == 'about' %}aria-current="page"{% endif %}>
+                <i class="bi bi-info-circle-fill" aria-hidden="true"></i> About
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+  </header>
+
+  <!-- [A11Y] role="main" landmark; id for skip-link target -->
+  <main id="main-content" role="main" tabindex="-1">
+    {% block content %}{% endblock %}
+  </main>
+
+  <!-- [A11Y] role="contentinfo" for footer landmark -->
+  <footer role="contentinfo" class="site-footer py-4 mt-auto">
+    <div class="container text-center">
+      <p class="mb-1">
+        <strong>UniAccess</strong> — Built with empathy. Designed for everyone.
+      </p>
+      <p class="mb-0 small">
+        No personal data collected · No ads · No tracking ·
+        <a href="{{ url_for('about') }}">Our accessibility commitment</a>
+      </p>
+    </div>
+  </footer>
+
+  <!-- [A11Y] Live region for dynamic announcements to screen readers -->
+  <div id="a11y-announcer" aria-live="polite" aria-atomic="true" class="visually-hidden"></div>
+  <!-- Emergency-level announcements (alerts, errors) -->
+  <div id="a11y-alert-announcer" aria-live="assertive" aria-atomic="true" class="visually-hidden"></div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="{{ url_for('static', filename='js/settings.js') }}"></script>
+  {% block scripts %}{% endblock %}
+</body>
+</html>

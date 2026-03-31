@@ -1,50 +1,58 @@
+"""
+UniAccess – Accessibility Web Application
+Flask backend serving all routes for the UniAccess platform.
+Accessibility decisions are annotated with [A11Y] comments throughout.
+"""
 
-from flask import Flask, render_template, session, request
+from flask import Flask, render_template, session
+import os
 
 app = Flask(__name__)
-app.secret_key = 'dev-secret-key'  # Session-only, no accounts
+# [A11Y] Session used only for storing user preferences — no personal data collected.
+app.secret_key = os.urandom(24)
 
-def get_settings():
-    return session.get('settings', {
-        'font_size': '1.2rem',
-        'contrast': 'high',
-        'tts_rate': 1,
-        'enable_audio': True,
-        'enable_vibration': False
-    })
 
-@app.route('/')
+@app.route("/")
 def index():
-    return render_template('index.html')
+    """Home page: explains the problem and invites users to start."""
+    return render_template("index.html")
 
-@app.route('/caption')
+
+@app.route("/caption")
 def caption():
-    return render_template('caption.html')
+    """LiveSpeak — Real-time speech-to-text captioning for hearing-impaired users."""
+    return render_template("caption.html")
 
-@app.route('/read')
+
+@app.route("/read")
 def read():
-    return render_template('read.html')
+    """ReadAssist — Accessible text transformation & text-to-speech."""
+    return render_template("read.html")
 
-@app.route('/vision')
+
+@app.route("/vision")
 def vision():
-    return render_template('vision.html')
+    """VisionSense — Camera-based object & text recognition for vision-impaired users."""
+    return render_template("vision.html")
 
-@app.route('/alerts', methods=['GET','POST'])
+
+@app.route("/alerts")
 def alerts():
-    if request.method == 'POST':
-        session['alert_mode'] = request.form.to_dict()
-    return render_template('alerts.html')
+    """SafeAlert — Multimodal notification & emergency alert demos."""
+    return render_template("alerts.html")
 
 
-@app.route('/settings', methods=['GET','POST'])
+@app.route("/settings")
 def settings():
-    if request.method == 'POST':
-        session['settings'] = request.form.to_dict()
-    return render_template('settings.html', settings=get_settings())
+    """Accessibility Control Panel — user preference dashboard."""
+    return render_template("settings.html")
 
-@app.route('/about')
+
+@app.route("/about")
 def about():
-    return render_template('about.html')
+    """About page — impact, ethics, and inclusive design statement."""
+    return render_template("about.html")
 
-if __name__ == '__main__':
+
+if __name__ == "__main__":
     app.run(debug=True)

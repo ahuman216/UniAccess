@@ -1,0 +1,238 @@
+{% extends "base.html" %}
+{% block title %}About – Our Accessibility Commitment{% endblock %}
+
+{% block content %}
+<div class="feature-hero">
+  <div class="container px-4">
+    <span class="feature-badge">
+      <i class="bi bi-heart-fill" aria-hidden="true"></i> Our Mission
+    </span>
+    <h1>About UniAccess</h1>
+    <p class="lead text-muted-a">Built on empathy. Grounded in universal design. Free for everyone.</p>
+  </div>
+</div>
+
+<div class="container px-4 py-4">
+
+  <!-- Ethical Design Statement -->
+  <section aria-labelledby="ethics-heading" class="mb-5">
+    <div class="ua-card" style="border-left:4px solid var(--clr-accent);">
+      <h2 id="ethics-heading" class="h4 mb-3">
+        <i class="bi bi-shield-check-fill text-accent" aria-hidden="true"></i>
+        Ethical Design Statement
+      </h2>
+      <p>
+        UniAccess was built with one belief: <strong>technology should work for every person</strong>,
+        regardless of their sensory ability, economic status, or technical literacy.
+      </p>
+      <p>
+        We follow the principles of <em>Universal Design</em> — the idea that products should be
+        usable by all people, to the greatest extent possible, without the need for adaptation or
+        specialised design. Accessibility is not a feature. It is the foundation.
+      </p>
+      <p class="mb-0">
+        This application collects <strong>zero personal data</strong>, displays <strong>zero advertisements</strong>,
+        and requires <strong>zero account creation</strong>. All preferences are stored locally on your device
+        and never transmitted anywhere.
+      </p>
+    </div>
+  </section>
+
+  <!-- Impact Section -->
+  <section aria-labelledby="impact-heading" class="mb-5">
+    <h2 id="impact-heading" class="mb-4">Real-World Impact</h2>
+    <div class="row g-4">
+      <div class="col-md-6">
+        <div class="ua-card">
+          <h3 class="h5">
+            <i class="bi bi-mortarboard-fill text-accent" aria-hidden="true"></i>
+            Education
+          </h3>
+          <p>
+            Students who are deaf or hard-of-hearing often rely on sign-language interpreters —
+            a resource many schools cannot afford. <strong>LiveSpeak</strong> provides free,
+            real-time captioning so every student can follow a lecture.
+          </p>
+          <p class="mb-0">
+            Students with low vision or dyslexia can use <strong>ReadAssist</strong> to transform
+            handout text into a format that reduces reading fatigue and increases comprehension.
+          </p>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="ua-card">
+          <h3 class="h5">
+            <i class="bi bi-building text-accent" aria-hidden="true"></i>
+            Public Spaces &amp; Safety
+          </h3>
+          <p>
+            Traditional fire alarms and emergency announcements depend entirely on hearing.
+            <strong>SafeAlert</strong> delivers alerts through screen flash, vibration, and on-screen
+            text — ensuring no one is left uninformed in an emergency.
+          </p>
+          <p class="mb-0">
+            <strong>VisionSense</strong> helps users with vision impairments navigate unfamiliar spaces
+            by identifying objects and printed signs through the camera.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Feature Accessibility Benefits -->
+  <section aria-labelledby="features-impact" class="mb-5">
+    <h2 id="features-impact" class="mb-4">Each Feature's Accessibility Benefit</h2>
+
+    <div class="table-responsive">
+      <!-- [A11Y] Accessible data table with scope and caption -->
+      <table class="table table-bordered" aria-label="Feature accessibility benefits">
+        <caption class="visually-hidden">UniAccess features and their accessibility benefits</caption>
+        <thead style="background:var(--clr-surface);">
+          <tr>
+            <th scope="col">Feature</th>
+            <th scope="col">Primary Audience</th>
+            <th scope="col">Barrier Removed</th>
+            <th scope="col">Technology Used</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th scope="row">LiveSpeak</th>
+            <td>Deaf, hard-of-hearing</td>
+            <td>Cannot hear spoken content in real time</td>
+            <td>Web Speech API (SpeechRecognition)</td>
+          </tr>
+          <tr>
+            <th scope="row">ReadAssist</th>
+            <td>Low vision, dyslexia, reading difficulties</td>
+            <td>Small fonts, poor contrast, reading fatigue</td>
+            <td>CSS transforms + SpeechSynthesis API</td>
+          </tr>
+          <tr>
+            <th scope="row">VisionSense</th>
+            <td>Blind, low vision</td>
+            <td>Cannot identify objects or read signs</td>
+            <td>Camera API + simulated Vision AI (Tesseract.js-ready)</td>
+          </tr>
+          <tr>
+            <th scope="row">SafeAlert</th>
+            <td>Deaf, blind, and all users</td>
+            <td>Audio-only alarms exclude hearing-impaired users</td>
+            <td>Vibration API + SpeechSynthesis + CSS animation</td>
+          </tr>
+          <tr>
+            <th scope="row">Control Panel</th>
+            <td>All users</td>
+            <td>One-size-fits-all interfaces fail diverse needs</td>
+            <td>localStorage + CSS custom properties</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- WCAG Compliance -->
+  <section aria-labelledby="wcag-heading" class="mb-5">
+    <h2 id="wcag-heading" class="mb-3">WCAG 2.1 AA Compliance</h2>
+    <p>
+      Every page in UniAccess is designed to meet the
+      <a href="https://www.w3.org/WAI/WCAG21/quickref/" target="_blank" rel="noopener noreferrer">
+        Web Content Accessibility Guidelines 2.1, Level AA
+      </a>.
+    </p>
+    <div class="row g-3">
+      <div class="col-sm-6 col-lg-4">
+        <div class="ua-card">
+          <i class="bi bi-check-circle-fill text-success-a" aria-hidden="true"></i>
+          <h3 class="h6 mt-1">Keyboard Navigation</h3>
+          <p class="small mb-0">Every interactive element is reachable and operable via keyboard alone.</p>
+        </div>
+      </div>
+      <div class="col-sm-6 col-lg-4">
+        <div class="ua-card">
+          <i class="bi bi-check-circle-fill text-success-a" aria-hidden="true"></i>
+          <h3 class="h6 mt-1">Screen Reader Support</h3>
+          <p class="small mb-0">ARIA landmarks, labels, live regions, and roles throughout every page.</p>
+        </div>
+      </div>
+      <div class="col-sm-6 col-lg-4">
+        <div class="ua-card">
+          <i class="bi bi-check-circle-fill text-success-a" aria-hidden="true"></i>
+          <h3 class="h6 mt-1">Colour Contrast ≥ 4.5:1</h3>
+          <p class="small mb-0">All text and background colour pairs exceed the WCAG minimum contrast ratio.</p>
+        </div>
+      </div>
+      <div class="col-sm-6 col-lg-4">
+        <div class="ua-card">
+          <i class="bi bi-check-circle-fill text-success-a" aria-hidden="true"></i>
+          <h3 class="h6 mt-1">Focus Indicators</h3>
+          <p class="small mb-0">Visible focus rings on all interactive elements — never suppressed for keyboard users.</p>
+        </div>
+      </div>
+      <div class="col-sm-6 col-lg-4">
+        <div class="ua-card">
+          <i class="bi bi-check-circle-fill text-success-a" aria-hidden="true"></i>
+          <h3 class="h6 mt-1">No Seizure Risk</h3>
+          <p class="small mb-0">Flashing animations are limited to ≤ 3 per second (WCAG 2.3.1) and respect prefers-reduced-motion.</p>
+        </div>
+      </div>
+      <div class="col-sm-6 col-lg-4">
+        <div class="ua-card">
+          <i class="bi bi-check-circle-fill text-success-a" aria-hidden="true"></i>
+          <h3 class="h6 mt-1">Semantic Heading Structure</h3>
+          <p class="small mb-0">Proper h1 → h4 hierarchy on every page for screen-reader navigation.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Universal Design Principles -->
+  <section aria-labelledby="udp-heading" class="mb-5">
+    <h2 id="udp-heading" class="mb-3">Universal Design Principles Applied</h2>
+    <ol class="list-group list-group-numbered">
+      <li class="list-group-item" style="background:var(--clr-surface); border-color:var(--clr-border);">
+        <strong>Equitable Use</strong> — All tools are free and work across device types.
+      </li>
+      <li class="list-group-item" style="background:var(--clr-surface); border-color:var(--clr-border);">
+        <strong>Flexibility in Use</strong> — Users can pick audio, visual, or haptic outputs independently.
+      </li>
+      <li class="list-group-item" style="background:var(--clr-surface); border-color:var(--clr-border);">
+        <strong>Simple and Intuitive</strong> — Plain-language labels, large buttons, no jargon.
+      </li>
+      <li class="list-group-item" style="background:var(--clr-surface); border-color:var(--clr-border);">
+        <strong>Perceptible Information</strong> — Information conveyed via text, audio, and visual cues — never relying on one sense alone.
+      </li>
+      <li class="list-group-item" style="background:var(--clr-surface); border-color:var(--clr-border);">
+        <strong>Tolerance for Error</strong> — Destructive actions are undoable; errors are explained clearly.
+      </li>
+      <li class="list-group-item" style="background:var(--clr-surface); border-color:var(--clr-border);">
+        <strong>Low Physical Effort</strong> — Touch targets meet the 44px minimum; keyboard shortcuts available.
+      </li>
+      <li class="list-group-item" style="background:var(--clr-surface); border-color:var(--clr-border);">
+        <strong>Size and Space for Approach</strong> — Responsive design works from 320px mobile widths upward.
+      </li>
+    </ol>
+  </section>
+
+  <!-- CTA -->
+  <section class="text-center py-4 border-top" aria-labelledby="cta-heading">
+    <h2 id="cta-heading" class="h3 mb-2">Ready to Start?</h2>
+    <p class="text-muted-a mb-3">Choose any tool below — no sign-up required.</p>
+    <div class="d-flex flex-wrap justify-content-center gap-3">
+      <a href="{{ url_for('caption') }}" class="btn-ua-primary">
+        <i class="bi bi-mic-fill" aria-hidden="true"></i> LiveSpeak
+      </a>
+      <a href="{{ url_for('read') }}" class="btn-ua-primary">
+        <i class="bi bi-book-fill" aria-hidden="true"></i> ReadAssist
+      </a>
+      <a href="{{ url_for('vision') }}" class="btn-ua-primary">
+        <i class="bi bi-camera-fill" aria-hidden="true"></i> VisionSense
+      </a>
+      <a href="{{ url_for('alerts') }}" class="btn-ua-primary">
+        <i class="bi bi-bell-fill" aria-hidden="true"></i> SafeAlert
+      </a>
+    </div>
+  </section>
+
+</div>
+{% endblock %}
